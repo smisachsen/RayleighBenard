@@ -1,1 +1,1 @@
-# RayleighBernard
+# RayleighBenard
