@@ -1,0 +1,20 @@
+
+
+{
+  "name": "dqn",
+  "agent": "dqn",
+  "network": [
+      {"type": "dense", "size" : 512, "activation": "tanh"},
+      {"type": "dense", "size" : 512, "activation": "tanh"}
+  ],
+
+  "update_frequency": 20,
+  "memory": 10000,
+
+  "batch_size": 100,
+  "learning_rate": 0.001,
+  "discount": 0.99,
+
+  "exploration": 0.2,
+  "entropy_regularization": 0.01
+}
