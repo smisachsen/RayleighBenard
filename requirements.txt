@@ -1,0 +1,4 @@
+tensorforce
+numpy
+sympy
+matplotlib
