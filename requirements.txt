@@ -1,4 +1,4 @@
-tensorforce
+tensorforce==0.5.4
 numpy
 sympy
 matplotlib
