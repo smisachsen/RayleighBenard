@@ -87,7 +87,7 @@ class RayleighBenardEnvironment(Environment):
             num_values = 2)
 
     def states(self):
-        return dict(type = "float", shape = (self.num_state_points, ))
+        return dict(type = "float", shape = (self.num_state_points*3, ))
 
 x, y, tt = sympy.symbols('x,y,t', real=True)
 
