@@ -67,6 +67,7 @@ class RayleighBenardEnvironment(Environment):
 
     def execute(self, actions, output = False):
         self.time_step += 1
+        print(self.time_step)
         actions = self.__expand_actions_shape(actions)
         actions = self.__normalize_actions(actions)
         self.RB.solve(num_timesteps = self.num_dt_between_actions,
