@@ -28,6 +28,8 @@ agent_name = "RB_ppo_agent"
 #environment configuration
 num_dt_between_actions = 10
 max_episode_timesteps = 1000
+num_state_points = 80
+num_actions = 20
 
 x, y, tt = sympy.symbols('x,y,t', real=True)
 
@@ -47,11 +49,6 @@ RB_config = {
     }
 
 
-
-
-
-
-
 num_servers = num_parallel
 port_start = 7010
 ports = range(port_start, port_start + num_servers)
@@ -65,8 +62,12 @@ for i, port in enumerate(ports):
     env = RayleighBenardEnvironment(
         num_dt_between_actions = num_dt_between_actions,
         max_episode_timesteps = max_episode_timesteps,
-        num_state_points = 20,
+        num_state_points = num_state_points,
+        num_actions = num_actions,
         RB_config = RB_config)
+
+        num_dt_between_actions, max_episode_timesteps, num_state_points,
+        num_actions, RB_config
     
     proc = Process(target=launch_server, args = (host, port, verbose, env))
     proc.start()
