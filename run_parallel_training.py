@@ -65,9 +65,6 @@ for i, port in enumerate(ports):
         num_state_points = num_state_points,
         num_actions = num_actions,
         RB_config = RB_config)
-
-        num_dt_between_actions, max_episode_timesteps, num_state_points,
-        num_actions, RB_config
     
     proc = Process(target=launch_server, args = (host, port, verbose, env))
     proc.start()
