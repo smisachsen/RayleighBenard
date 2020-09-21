@@ -89,12 +89,7 @@ class RayleighBenardEnvironment(Environment):
     def states(self):
         return dict(type = "float", shape = (self.num_state_points*3, ))
 
-
-
-
-
-
-# x, y, tt = sympy.symbols('x,y,t', real=True)
+x, y, tt = sympy.symbols('x,y,t', real=True)
 
 class RayleighBenard(object):
     def __init__(self, N=(32, 32), L=(2, 2*np.pi), Ra=10000., Pr=0.7, dt=0.1,

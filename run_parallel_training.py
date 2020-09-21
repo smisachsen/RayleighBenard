@@ -4,6 +4,7 @@ from socket_utils.utils import *
 from utils.save_utils import *
 from multiprocessing import Process
 from rayleigh_benard_environment import RayleighBenardEnvironment
+import sympy
 
 from tensorforce import Runner, Agent
 import argparse
