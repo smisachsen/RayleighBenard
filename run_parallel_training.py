@@ -29,6 +29,8 @@ agent_name = "RB_ppo_agent"
 num_dt_between_actions = 10
 max_episode_timesteps = 1000
 
+x, y, tt = sympy.symbols('x,y,t', real=True)
+
 #RB config
 RB_config = {
     'N': (100, 250),
@@ -39,7 +41,7 @@ RB_config = {
     'conv': 1,
     'modplot': 100,
     'modsave': 50,
-        'bcT': (sympy.sin((tt+x)), 0),
+        'bcT': (sympy.sin((t+x)), 0),
     'family': 'C',
     'quad': 'GC'
     }
