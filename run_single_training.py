@@ -27,7 +27,7 @@ x, y, t = sympy.symbols('x,y,t', real=True)
 
 #RB config
 RB_config = {
-    'N': (100, 250),
+    'N': (100, 260),
     'Ra': 1000.,
     "Pr": 0.7,
     'dt': 0.01,
