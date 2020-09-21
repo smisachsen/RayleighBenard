@@ -9,7 +9,7 @@ NUM_EPISODES = 1
 AGENTS_JSON = ["agents/ppo.json"]
 AGENT_NAMES = ["ppo_agent"]
 
-x, y, tt = sympy.symbols('x,y,t', real=True)
+x, y, t = sympy.symbols('x,y,t', real=True)
 
 RB_CONFIG = {
     'N': (100, 250),
