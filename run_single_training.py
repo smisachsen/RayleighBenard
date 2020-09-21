@@ -1,6 +1,7 @@
 from rayleigh_benard_environment import RayleighBenardEnvironment
 import sympy
 import argparse
+from tensorforce import Agent, Runner
 
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
