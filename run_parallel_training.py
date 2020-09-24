@@ -5,6 +5,7 @@ from utils.save_utils import *
 from multiprocessing import Process
 from rayleigh_benard_environment import RayleighBenardEnvironment
 import sympy
+import socket
 
 from tensorforce import Runner, Agent
 import argparse
@@ -31,7 +32,7 @@ max_episode_timesteps = 1000
 num_state_points = 80
 num_actions = 20
 
-x, y, tt = sympy.symbols('x,y,t', real=True)
+x, y, t = sympy.symbols('x,y,t', real=True)
 
 #RB config
 RB_config = {
@@ -65,7 +66,7 @@ for i, port in enumerate(ports):
         num_state_points = num_state_points,
         num_actions = num_actions,
         RB_config = RB_config)
-    
+
     proc = Process(target=launch_server, args = (host, port, verbose, env))
     proc.start()
     processes.append(proc)
@@ -123,7 +124,3 @@ finally:
     create_folder_if_not_exists(savefolder)
     agent.save(directory=savefolder, filename = agent_name)
     print(f"saved agent to {savefolder}")
-
-
-
-
