@@ -412,8 +412,18 @@ class RayleighBenard(object):
         return state
 
     def get_reward(self):
-        conv = self.convection(self.u_, self.H_)
-        return -conv.v.sum().real*10_000
+        convection = self.convection(self.u_, self.H_)
+        
+        dT = project(Dx(self.T_, 0, 1), self.TC)
+        points = np.zeros((2, self.N[1]))
+        points[0] = -1
+        points[1] = self.X[1][0]
+        dT0 = dT.eval(points)
+        conduction = np.sum(dT0)*2*np.pi/self.N[1]
+
+        nusselt_number = convection/conduction
+        
+        return -nusselt_number
 
     def plot(self, t, tstep):
         if tstep % self.modplot == 0:
