@@ -20,7 +20,7 @@ RB_CONFIG = {
     'conv': 1,
     'modplot': 100,
     'modsave': 50,
-        'bcT': (sympy.sin((tt+x)), 0),
+        'bcT': (sympy.sin((t+x)), 0),
     'family': 'C',
     'quad': 'GC'
 }
