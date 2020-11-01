@@ -13,7 +13,7 @@ x, y, tt = sympy.symbols('x,y,t', real=True)
 
 RB_CONFIG = {
     'N': (100, 250),
-    'Ra': 1000.,
+    'Ra': 100000.,
     "Pr": 0.7,
     'dt': 0.01,
     'filename': 'RB100',

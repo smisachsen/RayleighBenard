@@ -1,10 +1,10 @@
 import sympy
 import argparse
+from rayleigh_benard_environment import RayleighBenardEnvironment
 from tensorforce import Agent, Runner
 
-from rayleigh_benard_environment import RayleighBenardEnvironment
-from optimal_agent_tuning import *
 from config import *
+from optimal_agent_tuning import *
 
 """
 #### SETUP Environment ####

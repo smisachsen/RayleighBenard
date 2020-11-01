@@ -2,8 +2,6 @@ import sys
 
 from tensorforce import Runner, Agent
 
-from utils import get_new_subfolder
-
 def run_agents(agent_json_list, num_episodes, agent_names, environment = None,
     environments = None, output = False, save_directory = None):
 
@@ -31,8 +29,7 @@ def _run_agent(agent, num_episodes, agent_name, environment = None, environments
         sys.exit()
 
     directory = save_directory
-    subfolder_name = get_new_subfolder(directory)
 
 
     runner.run(num_episodes = num_episodes)
-    agent.save(directory = subfolder_name, filename = agent_name)
+    agent.save(directory = save_directory, filename = agent_name)

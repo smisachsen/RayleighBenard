@@ -28,7 +28,7 @@ class RayleighBenardEnvironment(Environment):
         self.time_step = 0
 
         self.RB = RayleighBenard(**self.RB_config)
-        self.RB.initialize(rand = 0.0001)
+        self.RB.initialize(rand = 0.01)
         self.RB.assemble()
         self.state = self.__get_state()
 
@@ -78,7 +78,7 @@ class RayleighBenardEnvironment(Environment):
         terminal = self.time_step == self.max_episode_timesteps()
 
         if output:
-            print(f"state: {new_state}, terminal: {terminal}, reward: {reward}")
+            print(f"terminal: {terminal}, reward: {reward}")
 
         return new_state, terminal, reward
 
@@ -92,7 +92,7 @@ class RayleighBenardEnvironment(Environment):
 x, y, tt = sympy.symbols('x,y,t', real=True)
 
 class RayleighBenard(object):
-    def __init__(self, N=(32, 32), L=(2, 2*np.pi), Ra=10000., Pr=0.7, dt=0.1,
+    def __init__(self, N=(32, 32), L=(2, 2*np.pi), Ra=10., Pr=0.7, dt=0.1,
                  bcT=(0, 1), conv=0, modplot=100, modsave=1e8, filename='RB',
                  family='C', quad='GC', num_actions = 4, num_states = 4):
 
@@ -344,7 +344,7 @@ class RayleighBenard(object):
         if isinstance(self.bcT[0], sympy.Expr):
             rhs[1] -= self.lhs_mat[rk][0].matvec(self.T_1, self.w0)
             rhs[1] += self.rhs_mat[rk][0].matvec(self.T_, self.w1)
-            #print(np.linalg.norm(self.w0-self.w1))
+
 
         up = self.BDp.backward(self.u_, self.up)
         T_p = self.TTp.backward(self.T_, self.T_p)
@@ -412,18 +412,21 @@ class RayleighBenard(object):
         return state
 
     def get_reward(self):
-        convection = self.convection(self.u_, self.H_)
-        
         dT = project(Dx(self.T_, 0, 1), self.TC)
-        points = np.zeros((2, self.N[1]))
-        points[0] = -1
-        points[1] = self.X[1][0]
-        dT0 = dT.eval(points)
-        conduction = np.sum(dT0)*2*np.pi/self.N[1]
+        conduction = inner(1, abs(dT.backward()))
 
-        nusselt_number = convection/conduction
-        
-        return -nusselt_number
+        convection_values = self.convection(self.u_, self.H_).backward()
+        convection = inner((1, 1), abs(convection_values))
+
+        # points = np.zeros((2, self.N[1]))
+        # points[0] = -1
+        # points[1] = self.X[1][0]
+        # dT0 = dT.eval(points)
+        # conduction = np.sum(np.abs(dT0))*2*np.pi/self.N[1]
+
+        nusselt = convection/conduction
+
+        return nusselt
 
     def plot(self, t, tstep):
         if tstep % self.modplot == 0:
@@ -481,8 +484,8 @@ class RayleighBenard(object):
             self.t += self.dt
             self.end_of_tstep()
 
-        ub = self.u_.backward(self.ub, kind = "uniform")
-        T_b = self.T_.backward(kind = "uniform")
+        ub = self.u_.backward(self.ub, uniform = True) #kind = "uniform")
+        T_b = self.T_.backward(uniform = True) #kind = "uniform")
 
         self.temperature[self.t] = T_b
         self.u[self.t] = ub
