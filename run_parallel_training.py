@@ -107,7 +107,7 @@ except:
         # Regularization
         entropy_regularization=0.01,
         # TensorFlow etc
-        parallel_interactions=1
+        parallel_interactions=num_servers
         )
 
 print("setup agent DONE")
