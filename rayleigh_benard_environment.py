@@ -485,8 +485,8 @@ class RayleighBenard(object):
             self.t += self.dt
             self.end_of_tstep()
 
-        ub = self.u_.backward(self.ub, uniform = True) #kind = "uniform")
-        T_b = self.T_.backward(uniform = True) #kind = "uniform")
+        ub = self.u_.backward(self.ub, kind = "uniform")
+        T_b = self.T_.backward(kind = "uniform")
 
         self.temperature[self.t] = T_b
         self.u[self.t] = ub
