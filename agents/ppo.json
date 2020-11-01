@@ -1,7 +1,6 @@
 
 
 {
-  "name": "ppo_agent",
   "agent": "ppo",
   "network": [
       {"type": "dense", "size" : 512, "activation": "tanh"},
