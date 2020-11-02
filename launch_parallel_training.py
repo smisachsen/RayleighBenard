@@ -49,7 +49,7 @@ agent = Agent.create(
     # Network
     network=network,
     # Optimization
-    batch_size=20, learning_rate=1e-3, subsampling_fraction=0.2, optimization_steps=25,
+    batch_size=20, learning_rate=1e-3, subsampling_fraction=0.2,
     # Reward estimation
     likelihood_ratio_clipping=0.2, estimate_terminal=True,  # ???
     # TODO: gae_lambda=0.97 doesn't currently exist
