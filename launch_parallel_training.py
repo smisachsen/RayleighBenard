@@ -7,7 +7,7 @@ import numpy as np
 
 from tensorforce import Agent,Runner
 
-from simulation_base.env import RayleighBenardEnvironment
+from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment
 from RemoteEnvironmentClient import RemoteEnvironmentClient
 
 
