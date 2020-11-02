@@ -4,10 +4,34 @@ import matplotlib.pyplot as plt
 import sympy
 import sys
 
+import sympy
+
+NUM_DT_BETWEEN_ACTIONS = 10
+MAX_EPISODE_TIMESTEPS = 10
+NUM_STATE_POINTS = 20
+NUM_ACTIONS = 10
+
+x, y, t = sympy.symbols('x,y,t', real=True)
+
+RB_CONFIG = {
+    'N': (100, 250),
+    'Ra': 100000.,
+    "Pr": 0.7,
+    'dt': 0.01,
+    'filename': 'RB100',
+    'conv': 1,
+    'modplot': 100,
+    'modsave': 50,
+        'bcT': (sympy.sin((t+x)), 0),
+    'family': 'C',
+    'quad': 'GC'
+}
+
+
 
 class RayleighBenardEnvironment(Environment):
-    def __init__(self, num_dt_between_actions, max_episode_timesteps, num_state_points,
-        num_actions, RB_config):
+    def __init__(self, num_dt_between_actions=NUM_DT_BETWEEN_ACTIONS, max_episode_timesteps=MAX_EPISODE_TIMESTEPS, 
+        num_state_points=NUM_STATE_POINTS, num_actions=NUM_ACTIONS, RB_config=RB_CONFIG):
         super().__init__()
 
         self.num_dt_between_actions = num_dt_between_actions

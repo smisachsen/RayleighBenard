@@ -5,8 +5,7 @@ import csv
 import socket
 import numpy as np
 
-from tensorforce.agents import Agent
-from tensorforce.execution import ParallelRunner
+from tensorforce import Agent,Runner
 
 from simulation_base.env import RayleighBenardEnvironment
 from RemoteEnvironmentClient import RemoteEnvironmentClient
