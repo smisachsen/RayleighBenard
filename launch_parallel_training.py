@@ -7,7 +7,7 @@ import numpy as np
 
 from tensorforce import Agent,Runner
 
-from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment
+from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment, NUM_DT_BETWEEN_ACTIONS
 from RemoteEnvironmentClient import RemoteEnvironmentClient
 
 
@@ -44,18 +44,16 @@ network = [dict(type='dense', size=512), dict(type='dense', size=512)]
 
 agent = Agent.create(
     # Agent + Environment
-    agent='ppo', environment=example_environment,
+    agent='ppo',
+    environment=example_environment,
     # TODO: nb_actuations could be specified by Environment.max_episode_timesteps() if it makes sense...
     # Network
     network=network,
     # Optimization
-    batch_size=20, learning_rate=1e-3, subsampling_fraction=0.2,
-    # Reward estimation
-    likelihood_ratio_clipping=0.2, estimate_terminal=True,  # ???
-    # TODO: gae_lambda=0.97 doesn't currently exist
-    # regularization
+    batch_size=20,
+    learning_rate=1e-3,
+    discount=0.999,
     entropy_regularization=0.01,
-    # TensorFlow etc
     parallel_interactions=number_servers,
     saver=dict(directory=os.path.join(os.getcwd(), 'saver_data')),
 )
@@ -70,7 +68,7 @@ sys.path.append(cwd + evaluation_folder)
 # out_drag_file = open("avg_drag.txt", "w")
 
 runner.run(
-    num_episodes=5, max_episode_timesteps=nb_actuations, sync_episodes=True,
+    num_episodes=5, sync_episodes=True,
     save_best_agent=use_best_model
 )
 # out_drag_file.close()
