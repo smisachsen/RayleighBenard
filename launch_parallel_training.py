@@ -26,7 +26,7 @@ if host == 'None':
     host = socket.gethostname()
 
 example_environment = RayleighBenardEnvironment()
-use_best_model = True
+# use_best_model = True
 
 environments = []
 for crrt_simu in range(number_servers):
@@ -35,10 +35,10 @@ for crrt_simu in range(number_servers):
         timing_print=(crrt_simu == 0)
     ))
 
-if use_best_model:
-    evaluation_environment = environments.pop()
-else:
-    evaluation_environment = None
+# if use_best_model:
+#     evaluation_environment = environments.pop()
+# else:
+#     evaluation_environment = None
 
 network = [dict(type='dense', size=512), dict(type='dense', size=512)]
 
@@ -59,8 +59,9 @@ agent = Agent.create(
 )
 
 runner = Runner(
-    agent=agent, environments=environments, num_parallel=number_servers, evaluation_environment=evaluation_environment
-)
+    agent=agent, environments=environments, num_parallel=number_servers,
+    evaluation=True
+    )
 
 cwd = os.getcwd()
 evaluation_folder = "env_" + str(number_servers - 1)
@@ -69,7 +70,7 @@ sys.path.append(cwd + evaluation_folder)
 
 runner.run(
     num_episodes=5, sync_episodes=True,
-    save_best_agent=use_best_model
 )
 # out_drag_file.close()
 runner.close()
+print("running done")
