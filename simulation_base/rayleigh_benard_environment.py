@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import sympy
 import sys
 
+
 class RayleighBenardEnvironment(Environment):
     def __init__(self, num_dt_between_actions, max_episode_timesteps, num_state_points,
         num_actions, RB_config):
