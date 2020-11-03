@@ -50,6 +50,7 @@ class RemoteEnvironmentClient(Environment):
         # if necessary, use the local host
         if self.host is None:
             self.host = socket.gethostname()
+            self.host="localhost"
         # connect to the socket
         # self.socket.connect((self.host, self.port))
         # for a reason I cannot understand, need next line to be able to use forwarding between dockers
