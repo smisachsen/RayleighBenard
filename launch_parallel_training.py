@@ -70,8 +70,6 @@ sys.path.append(cwd + evaluation_folder)
 # out_drag_file = open("avg_drag.txt", "w")
 
 runner.run(
-    num_episodes=5, max_episode_timesteps=nb_actuations, sync_episodes=True,
-    save_best_agent=use_best_model
+    num_episodes=5, sync_episodes=True
 )
-# out_drag_file.close()
 runner.close()
