@@ -7,7 +7,7 @@ import numpy as np
 
 from tensorforce import Agent,Runner
 
-from simulation_base.env import RayleighBenardEnvironment
+from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment, NUM_DT_BETWEEN_ACTIONS
 from RemoteEnvironmentClient import RemoteEnvironmentClient
 
 
@@ -26,7 +26,7 @@ if host == 'None':
     host = socket.gethostname()
 
 example_environment = RayleighBenardEnvironment()
-use_best_model = True
+# use_best_model = True
 
 environments = []
 for crrt_simu in range(number_servers):
@@ -35,34 +35,33 @@ for crrt_simu in range(number_servers):
         timing_print=(crrt_simu == 0)
     ))
 
-if use_best_model:
-    evaluation_environment = environments.pop()
-else:
-    evaluation_environment = None
+# if use_best_model:
+#     evaluation_environment = environments.pop()
+# else:
+#     evaluation_environment = None
 
 network = [dict(type='dense', size=512), dict(type='dense', size=512)]
 
 agent = Agent.create(
     # Agent + Environment
-    agent='ppo', environment=example_environment,
+    agent='ppo',
+    environment=example_environment,
     # TODO: nb_actuations could be specified by Environment.max_episode_timesteps() if it makes sense...
     # Network
     network=network,
     # Optimization
-    batch_size=20, learning_rate=1e-3, subsampling_fraction=0.2, optimization_steps=25,
-    # Reward estimation
-    likelihood_ratio_clipping=0.2, estimate_terminal=True,  # ???
-    # TODO: gae_lambda=0.97 doesn't currently exist
-    # regularization
+    batch_size=20,
+    learning_rate=1e-3,
+    discount=0.999,
     entropy_regularization=0.01,
-    # TensorFlow etc
     parallel_interactions=number_servers,
     saver=dict(directory=os.path.join(os.getcwd(), 'saver_data')),
 )
 
 runner = Runner(
-    agent=agent, environments=environments, num_parallel=number_servers, evaluation_environment=evaluation_environment
-)
+    agent=agent, environments=environments, num_parallel=number_servers,
+    evaluation=True
+    )
 
 cwd = os.getcwd()
 evaluation_folder = "env_" + str(number_servers - 1)
@@ -70,6 +69,14 @@ sys.path.append(cwd + evaluation_folder)
 # out_drag_file = open("avg_drag.txt", "w")
 
 runner.run(
+<<<<<<< HEAD
     num_episodes=5, sync_episodes=True
 )
 runner.close()
+=======
+    num_episodes=5, sync_episodes=True,
+)
+# out_drag_file.close()
+runner.close()
+print("running done")
+>>>>>>> f6f6b33c707dc5f494d6550328834dd066270484
