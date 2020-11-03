@@ -69,14 +69,6 @@ sys.path.append(cwd + evaluation_folder)
 # out_drag_file = open("avg_drag.txt", "w")
 
 runner.run(
-<<<<<<< HEAD
-    num_episodes=5, sync_episodes=True
+    num_episodes=100, sync_episodes=True
 )
 runner.close()
-=======
-    num_episodes=5, sync_episodes=True,
-)
-# out_drag_file.close()
-runner.close()
-print("running done")
->>>>>>> f6f6b33c707dc5f494d6550328834dd066270484
