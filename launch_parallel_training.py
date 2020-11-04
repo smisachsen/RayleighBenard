@@ -59,8 +59,7 @@ agent = Agent.create(
 )
 
 runner = Runner(
-    agent=agent, environments=environments, num_parallel=number_servers,
-    evaluation=True
+    agent=agent, environments=environments, num_parallel=number_servers
     )
 
 cwd = os.getcwd()
