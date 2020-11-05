@@ -9,4 +9,4 @@ dependencies:
   - pip
   
   - pip:
-    - tensorforce==0.5.3
+    - tensorforce==0.5.0
