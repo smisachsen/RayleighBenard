@@ -1,6 +1,6 @@
 #!/bin/bash
 
-conda activate shenfun
+conda activate ray
 
 if [ $# -eq 0 ]; then
     echo "No arguments provided; -h for help"
@@ -66,13 +66,13 @@ tmux split-window -t 0 -v
 tmux send-keys -t 1 "htop" C-m
 
 echo "Launching the servers. This takes a few seconds..."
-tmux send-keys -t 3 "python launch_servers.py -p $2 -n $3"  C-m
+tmux send-keys -t 3 "conda activate ray;python launch_servers.py -p $2 -n $3"  C-m
 let "n_sec_sleep = 10 * $3"
 echo "Wait $n_sec_sleep secs for servers to start..."
 sleep $n_sec_sleep
 
 echo "Launched training!"
-tmux send-keys -t 2 "python launch_parallel_training.py -p $2 -n $3"  C-m
+tmux send-keys -t 2 "conda activate ray;python launch_parallel_training.py -p $2 -n $3"  C-m
 
 # have a look at the training, from the still available first pane
 tmux select-pane -t 0
