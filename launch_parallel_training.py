@@ -60,7 +60,7 @@ agent = Agent.create(
     likelihood_ratio_clipping=0.2,  # ???
     # TensorFlow etc
     parallel_interactions=number_servers,
-    saver=dict(directory=os.path.join(os.getcwd(), 'saver_data')),
+    saver=dict(directory=os.path.join(os.getcwd(), 'saver_data'))
 )
 
 runner = ParallelRunner(
