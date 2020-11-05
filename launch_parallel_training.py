@@ -60,12 +60,12 @@ agent = Agent.create(
     likelihood_ratio_clipping=0.2,
     estimate_terminal=True,
     # TensorFlow etc
-    parallel_interactions=len(environments), #in the case of use_best_model = True
+    parallel_interactions=number_servers, #in the case of use_best_model = True
     saver=dict(directory=os.path.join(os.getcwd(), 'saver_data'))
 )
 
 runner = ParallelRunner(
-    agent=agent, environments=environments, num_parallel=len(environments)
+    agent=agent, environments=environments, num_parallel=number_servers
 )
 
 cwd = os.getcwd()
