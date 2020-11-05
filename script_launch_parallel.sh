@@ -1,5 +1,7 @@
 #!/bin/bash
 
+conda activate shenfun
+
 if [ $# -eq 0 ]; then
     echo "No arguments provided; -h for help"
     exit 1
@@ -36,7 +38,7 @@ if [ $found_session != 0 ]; then
 fi
 
 # check that all ports are free
-output=$(conda activate shenfun; python -c "from utils import bash_check_avail; bash_check_avail($2, $3)")
+output=$(python -c "from utils import bash_check_avail; bash_check_avail($2, $3)")
 
 if [ $output == "T" ]; then
     echo "Ports available, launch..."
@@ -64,13 +66,13 @@ tmux split-window -t 0 -v
 tmux send-keys -t 1 "htop" C-m
 
 echo "Launching the servers. This takes a few seconds..."
-tmux send-keys -t 3 "conda activate shenfun; python launch_servers.py -p $2 -n $3"  C-m
+tmux send-keys -t 3 "python launch_servers.py -p $2 -n $3"  C-m
 let "n_sec_sleep = 10 * $3"
 echo "Wait $n_sec_sleep secs for servers to start..."
 sleep $n_sec_sleep
 
 echo "Launched training!"
-tmux send-keys -t 2 "conda activate shenfun; python launch_parallel_training.py -p $2 -n $3"  C-m
+tmux send-keys -t 2 "python launch_parallel_training.py -p $2 -n $3"  C-m
 
 # have a look at the training, from the still available first pane
 tmux select-pane -t 0

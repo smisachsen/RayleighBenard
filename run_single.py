@@ -1,7 +1,7 @@
 from simulation_base.rayleigh_benard_environment import *
 
-from tensorforce import Agent,Runner
-import os
+from tensorforce.agents import Agent
+from tensorforce.execution import Runner
 
 
 env = RayleighBenardEnvironment()

@@ -1,4 +1,4 @@
-name: shenfun
+name: ray
 channels:
   - conda-forge
   - defaults
@@ -8,5 +8,3 @@ dependencies:
   - tensorflow
   - pip
   
-  - pip:
-    - tensorforce==0.5.0

@@ -17,7 +17,7 @@ ports_start = args["ports_start"]
 host = args["host"]
 
 # update the mesh stuff with the latest version
-os.system("cp -r simulation_base/mesh .")
+#os.system("cp -r simulation_base/mesh .")
 
 if host == 'None':
     host = socket.gethostname()

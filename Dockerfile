@@ -11,5 +11,10 @@ RUN apt install -y git tmux htop nano
 RUN git clone https://github.com/smisachsen/RayleighBenard.git
 WORKDIR RayleighBenard
 
-COPY run_single.py .
-COPY launch_parallel_training.py .
+RUN  git clone https://github.com/tensorforce/tensorforce.git \
+    && cd tensorforce \
+    && git checkout 0.5.0 -b tensorforce_0_5_0 \
+    && pip3 install -e .[tf] 
+
+
+USER root
