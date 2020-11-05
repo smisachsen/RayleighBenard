@@ -6,7 +6,8 @@ import socket
 import numpy as np
 import os
 
-from tensorforce import Agent,Runner
+from tensorforce.agents import Agent
+from tensorforce.execution import ParallelRunner
 
 from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment, NUM_DT_BETWEEN_ACTIONS
 from RemoteEnvironmentClient import RemoteEnvironmentClient
@@ -31,7 +32,7 @@ if host == 'None':
     host = socket.gethostname()
 
 example_environment = RayleighBenardEnvironment()
-# use_best_model = True
+use_best_model = True
 
 environments = []
 for crrt_simu in range(number_servers):
@@ -40,37 +41,40 @@ for crrt_simu in range(number_servers):
         timing_print=(crrt_simu == 0)
     ))
 
-# if use_best_model:
-#     evaluation_environment = environments.pop()
-# else:
-#     evaluation_environment = None
+if use_best_model:
+    evaluation_environment = environments.pop()
+else:
+    evaluation_environment = None
 
 network = [dict(type='dense', size=512), dict(type='dense', size=512)]
 
-if not os.path.exists(agent_dir):
-    os.mkdir(agent_dir)
+agent = Agent.create(
+    # Agent + Environment
+    agent='ppo', environment=example_environment, max_episode_timesteps=nb_actuations,
+    # TODO: nb_actuations could be specified by Environment.max_episode_timesteps() if it makes sense...
+    # Network
+    network=network,
+    # Optimization
+    batch_size=20, learning_rate=1e-3, subsampling_fraction=0.2, optimization_steps=25,
+    # Reward estimation
+    likelihood_ratio_clipping=0.2, estimate_terminal=True,  # ???
+    # TODO: gae_lambda=0.97 doesn't currently exist
+    # Critic
+    critic_network=network,
+    critic_optimizer=dict(
+        type='multi_step', num_steps=5,
+        optimizer=dict(type='adam', learning_rate=1e-3)
+    ),
+    # Regularization
+    entropy_regularization=0.01,
+    # TensorFlow etc
+    parallel_interactions=number_servers,
+    saver=dict(directory=os.path.join(os.getcwd(), 'saver_data')),
+)
 
-
-    agent = Agent.create(
-        # Agent + Environment
-        agent='ppo',
-        environment=example_environment,
-        # TODO: nb_actuations could be specified by Environment.max_episode_timesteps() if it makes sense...
-        # Network
-        network=network,
-        # Optimization
-        batch_size=20,
-        learning_rate=1e-3,
-        discount=0.999,
-        entropy_regularization=0.01,
-        parallel_interactions=number_servers,
-    )
-else:
-    agent = Agent.load(directory = agent_dir, filename = agent_filename)
-
-runner = Runner(
-    agent=agent, environments=environments, num_parallel=number_servers
-    )
+runner = ParallelRunner(
+    agent=agent, environments=environments, evaluation_environment=evaluation_environment
+)
 
 cwd = os.getcwd()
 evaluation_folder = "env_" + str(number_servers - 1)
@@ -78,7 +82,7 @@ sys.path.append(cwd + evaluation_folder)
 # out_drag_file = open("avg_drag.txt", "w")
 
 runner.run(
-    num_episodes=200
+    num_episodes=200, sync_episodes=True, save_best_agent=use_best_model
     )
 runner.close()
-agent.save()
+

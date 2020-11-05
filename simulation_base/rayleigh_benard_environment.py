@@ -1,4 +1,4 @@
-from tensorforce import Environment
+from tensorforce.environments import Environment
 from shenfun import *
 import matplotlib.pyplot as plt
 import sympy
@@ -444,15 +444,9 @@ class RayleighBenard(object):
         convection_values = self.convection(self.u_, self.H_).backward()
         convection = inner((1, 1), abs(convection_values))
 
-        # points = np.zeros((2, self.N[1]))
-        # points[0] = -1
-        # points[1] = self.X[1][0]
-        # dT0 = dT.eval(points)
-        # conduction = np.sum(np.abs(dT0))*2*np.pi/self.N[1]
-
         nusselt = convection/conduction
 
-        return nusselt
+        return -nusselt
 
     def plot(self, t, tstep):
         if tstep % self.modplot == 0:
