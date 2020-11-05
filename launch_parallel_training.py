@@ -50,7 +50,7 @@ network = [dict(type='dense', size=512), dict(type='dense', size=512)]
 
 agent = Agent.create(
     # Agent + Environment
-    agent='ppo', environment=example_environment, max_episode_timesteps=nb_actuations,
+    agent='ppo', environment=example_environment,
     # TODO: nb_actuations could be specified by Environment.max_episode_timesteps() if it makes sense...
     # Network
     network=network,
