@@ -50,23 +50,14 @@ network = [dict(type='dense', size=512), dict(type='dense', size=512)]
 
 agent = Agent.create(
     # Agent + Environment
-    agent='ppo', environment=example_environment,  max_episode_timesteps=MAX_EPISODE_TIMESTEPS,
+    agent='ppo', environment=example_environment,
     # TODO: nb_actuations could be specified by Environment.max_episode_timesteps() if it makes sense...
     # Network
     network=network,
     # Optimization
     batch_size=20, learning_rate=1e-3, subsampling_fraction=0.2, optimization_steps=25,
     # Reward estimation
-    likelihood_ratio_clipping=0.2, estimate_terminal=True,  # ???
-    # TODO: gae_lambda=0.97 doesn't currently exist
-    # Critic
-    critic_network=network,
-    critic_optimizer=dict(
-        type='multi_step', num_steps=5,
-        optimizer=dict(type='adam', learning_rate=1e-3)
-    ),
-    # Regularization
-    entropy_regularization=0.01,
+    likelihood_ratio_clipping=0.2,  # ???
     # TensorFlow etc
     parallel_interactions=number_servers,
     saver=dict(directory=os.path.join(os.getcwd(), 'saver_data')),
