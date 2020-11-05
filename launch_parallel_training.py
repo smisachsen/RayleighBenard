@@ -9,7 +9,7 @@ import os
 from tensorforce.agents import Agent
 from tensorforce.execution import ParallelRunner
 
-from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment, NUM_DT_BETWEEN_ACTIONS
+from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment, MAX_EPISODE_TIMESTEPS
 from RemoteEnvironmentClient import RemoteEnvironmentClient
 
 
@@ -50,7 +50,7 @@ network = [dict(type='dense', size=512), dict(type='dense', size=512)]
 
 agent = Agent.create(
     # Agent + Environment
-    agent='ppo', environment=example_environment,
+    agent='ppo', environment=example_environment,  max_episode_timesteps=MAX_EPISODE_TIMESTEPS,
     # TODO: nb_actuations could be specified by Environment.max_episode_timesteps() if it makes sense...
     # Network
     network=network,
