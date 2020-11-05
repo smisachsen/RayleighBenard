@@ -64,9 +64,7 @@ agent = Agent.create(
     saver=dict(directory=os.path.join(os.getcwd(), 'saver_data'))
 )
 
-runner = ParallelRunner(
-    agent=agent, environments=environments, num_parallel=number_servers
-)
+runner = ParallelRunner(agent=agent, environments=environments)
 
 cwd = os.getcwd()
 evaluation_folder = "env_" + str(number_servers - 1)
