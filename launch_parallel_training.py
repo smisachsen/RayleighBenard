@@ -59,7 +59,7 @@ agent = Agent.create(
     # Reward estimation
     likelihood_ratio_clipping=0.2,  # ???
     # TensorFlow etc
-    parallel_interactions=number_servers,
+    parallel_interactions=len(environments), #in the case of use_best_model = True
     saver=dict(directory=os.path.join(os.getcwd(), 'saver_data'))
 )
 
