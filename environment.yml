@@ -8,6 +8,6 @@ dependencies:
   - tensorflow
   - pip
 
-  pip:
+  - pip:
     - tensorforce==0.5.3
   
