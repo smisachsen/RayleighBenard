@@ -438,7 +438,7 @@ class RayleighBenard(object):
         for arr in [tmp_T, tmp_u1, tmp_u2]:
             for ind in indecies:
                 x, y = ind[0], ind[1]
-                state.append(a[x, y])
+                state.append(arr[x, y])
 
         state = np.array(state)
         return state
