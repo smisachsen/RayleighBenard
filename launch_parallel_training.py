@@ -73,7 +73,7 @@ sys.path.append(cwd + evaluation_folder)
 # out_drag_file = open("avg_drag.txt", "w")
 
 runner.run(
-    num_episodes=400, sync_episodes=True)
+    num_episodes=400, sync_episodes=True
     )
 
 data = dict()
