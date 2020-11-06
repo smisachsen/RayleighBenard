@@ -5,6 +5,7 @@ import csv
 import socket
 import numpy as np
 import os
+import json
 
 from tensorforce.agents import Agent
 from tensorforce.execution import ParallelRunner
@@ -74,5 +75,12 @@ sys.path.append(cwd + evaluation_folder)
 runner.run(
     num_episodes=200, sync_episodes=True
     )
+
+data = dict()
+data["rewards"] = runner.episode_rewards
+
+with open(outfile, "w") as file:
+    json.dumps(data, file)
+
 runner.close()
 
