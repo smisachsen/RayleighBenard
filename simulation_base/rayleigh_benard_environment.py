@@ -36,12 +36,11 @@ RB_CONFIG = {
 
 class RayleighBenardEnvironment(Environment):
     def __init__(self, num_dt_between_actions=NUM_DT_BETWEEN_ACTIONS, max_episode_timesteps=MAX_EPISODE_TIMESTEPS, 
-        num_state_points=NUM_STATE_POINTS, num_actions=NUM_ACTIONS, RB_config=RB_CONFIG):
+        num_actions=NUM_ACTIONS, RB_config=RB_CONFIG):
         super().__init__()
 
         self.num_dt_between_actions = num_dt_between_actions
         self.max_episode_timesteps_value = max_episode_timesteps
-        self.num_state_points = num_state_points
         self.num_actions = num_actions
 
         self.RB_config = RB_config
@@ -49,7 +48,7 @@ class RayleighBenardEnvironment(Environment):
         self.reset()
 
     def __get_state(self):
-        return self.RB.get_state(num_state_points = self.num_state_points)
+        return self.RB.get_state()
 
     def __get_reward(self):
         return self.RB.get_reward()
@@ -118,7 +117,7 @@ class RayleighBenardEnvironment(Environment):
             num_values = 2)
 
     def states(self):
-        return dict(type = "float", shape = (self.num_state_points*3, ))
+        return dict(type = "float", shape = (NUM_STATE_POINTS_X*NUM_STATE_POINTS_Y*3, ))
 
 x, y, tt = sympy.symbols('x,y,t', real=True)
 
@@ -427,7 +426,7 @@ class RayleighBenard(object):
             plt.draw()
             plt.pause(1e-6)
 
-    def get_state(self, num_state_points):
+    def get_state(self):
         shape = self.T_b.shape
         indecies = get_indecies(shape, NUM_STATE_POINTS_X, NUM_STATE_POINTS_Y)
 
@@ -537,46 +536,3 @@ class RayleighBenard(object):
 
 
 
-if __name__ == '__main__':
-    #RL config
-    num_dt_between_actions = 10
-    max_episode_timesteps = 200
-
-    #RB config
-    RB_config = {
-        'N': (100, 250),
-        'Ra': 1000.,
-        "Pr": 0.7,
-        'dt': 0.01,
-        'filename': 'RB100',
-        'conv': 1,
-        'modplot': 100,
-        'modsave': 50,
-            'bcT': (sympy.sin((tt+x)), 0),
-        'family': 'C',
-        'quad': 'GC'
-        }
-
-
-    env = RayleighBenardEnvironment(
-        num_dt_between_actions = num_dt_between_actions,
-        max_episode_timesteps = max_episode_timesteps,
-        num_state_points = 20,
-        RB_config = RB_config)
-
-    agent = Agent.create(agent='agents/deepq.json', environment=env)
-
-
-    for ep in range(10):
-        states = env.reset()
-
-        terminal = False
-
-        while not terminal:
-            actions = agent.act(states=states)
-            #import pdb; pdb.set_trace()
-            states, terminal, reward = env.execute(actions=actions, output = True)
-            agent.observe(terminal=terminal, reward=reward)
-
-
-    env.RB.save_to_file()
