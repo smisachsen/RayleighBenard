@@ -62,10 +62,10 @@ agent = Agent.create(
     estimate_terminal=True,
     # TensorFlow etc
     parallel_interactions=number_servers, #in the case of use_best_model = True
-    saver=dict(directory=os.path.join(os.getcwd(), 'saver_data'))
+    saver=dict(directory=os.path.join(os.getcwd(), 'saved_agents'))
 )
 
-runner = ParallelRunner(agent=agent, environments=environments, save_best_agent=os.path.join(os.getcwd() + "saved_agents"))
+runner = ParallelRunner(agent=agent, environments=environments)
 
 cwd = os.getcwd()
 evaluation_folder = "env_" + str(number_servers - 1)
@@ -73,7 +73,7 @@ sys.path.append(cwd + evaluation_folder)
 # out_drag_file = open("avg_drag.txt", "w")
 
 runner.run(
-    num_episodes=200, sync_episodes=True
+    num_episodes=200, sync_episodes=True, save_best_agent=os.path.join(os.getcwd() + "saved_agents")
     )
 
 data = dict()
