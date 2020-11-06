@@ -1,5 +1,7 @@
 from tensorforce.environments import Environment
 from shenfun import *
+from simulation_base.utils import get_indecies 
+
 import matplotlib.pyplot as plt
 import sympy
 import sys
@@ -8,13 +10,16 @@ import sympy
 
 NUM_DT_BETWEEN_ACTIONS = 10
 MAX_EPISODE_TIMESTEPS = 100
-NUM_STATE_POINTS = 20
+X_SHAPE = 100
+Y_SHAPE = 250
+NUM_STATE_POINTS_X = 10
+NUM_STATE_POINTS_Y = 10
 NUM_ACTIONS = 10
 
 x, y, t = sympy.symbols('x,y,t', real=True)
 
 RB_CONFIG = {
-    'N': (100, 250),
+    'N': (X_SHAPE, Y_SHAPE),
     'Ra': 1e+3.,
     "Pr": 0.7,
     'dt': 0.01,
@@ -423,19 +428,20 @@ class RayleighBenard(object):
             plt.pause(1e-6)
 
     def get_state(self, num_state_points):
-        import pdb; pdb.set_trace()
-        tmp_T = self.T_b.flatten()
-        tmp_u1 = self.ub[0].flatten()
-        tmp_u2 = self.ub[1].flatten()
+        shape = self.T_b.shape
+        indecies = get_indecies(shape, NUM_STATE_POINTS_X, NUM_STATE_POINTS_Y)
 
-        indecies = np.linspace(0, len(tmp_T) - 1, num_state_points).astype(int)
+        tmp_T = self.T_b
+        tmp_u1 = self.ub[0]
+        tmp_u2 = self.ub[1]
 
-        T_values = tmp_T[indecies]
-        u1_values = tmp_u1[indecies]
-        u2_values = tmp_u2[indecies]
+        state = list()
+        for arr in [tmp_T, tmp_u1, tmp_u2]:
+            for ind in indecies:
+                x, y = ind[0], ind[1]
+                state.append(a[x, y])
 
-        state = np.concatenate((T_values, u1_values, u2_values), axis = None)
-
+        state = np.array(state)
         return state
 
     def get_reward(self):
