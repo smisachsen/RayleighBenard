@@ -15,7 +15,7 @@ x, y, t = sympy.symbols('x,y,t', real=True)
 
 RB_CONFIG = {
     'N': (100, 250),
-    'Ra': 100000.,
+    'Ra': 1e+3.,
     "Pr": 0.7,
     'dt': 0.01,
     'filename': 'RB100',
@@ -423,6 +423,7 @@ class RayleighBenard(object):
             plt.pause(1e-6)
 
     def get_state(self, num_state_points):
+        import pdb; pdb.set_trace()
         tmp_T = self.T_b.flatten()
         tmp_u1 = self.ub[0].flatten()
         tmp_u2 = self.ub[1].flatten()
