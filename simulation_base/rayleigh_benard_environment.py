@@ -212,7 +212,7 @@ class RayleighBenard(object):
         self.temperature = dict()
         self.u = dict()
         self.actions_list = dict()
-        self.nusselt_list = list()
+        self.nusselt_list = dict()
 
 
     def initialize(self, rand=0.01):
@@ -454,7 +454,7 @@ class RayleighBenard(object):
         convection = inner((1, 1), abs(convection_values))
 
         nusselt = np.sum(convection)/np.sum(conduction)
-        self.nusselt_list.append(nusselt)
+        self.nusselt_list[self.t] = nusselt
 
         return -nusselt
 
@@ -520,6 +520,7 @@ class RayleighBenard(object):
         self.temperature[self.t] = T_b
         self.u[self.t] = ub
         self.actions_list[self.t] = actions
+        #self.nusselt_list[self.t] = -self.get_reward()
 
     def save_to_file(self, folderpath = None, output=True):
 
