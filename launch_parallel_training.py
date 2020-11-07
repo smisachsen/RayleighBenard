@@ -54,7 +54,7 @@ agent = Agent.create(
     estimate_terminal=True,
     # TensorFlow etc
     parallel_interactions=number_servers, #in the case of use_best_model = True
-    saver=dict(directory=os.path.join(os.getcwd(), 'saved_agents'))
+    saver=dict(directory=os.path.join(os.getcwd(), datafolder))
 )
 
 cwd = os.getcwd()
