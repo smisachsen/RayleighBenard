@@ -17,7 +17,7 @@ from RemoteEnvironmentClient import RemoteEnvironmentClient
 num_episodes = 64
 
 start=datetime.now()
-datetime_start = now.strftime("%H:%M:%S")
+datetime_start = start.strftime("%H:%M:%S")
 
 datafolder = os.path.join(os.getcwd(), "data")
 
@@ -74,7 +74,7 @@ runner.run(
 
 
 end=datetime.now()
-datetime_end = now.strftime("%H:%M:%S")
+datetime_end = end.strftime("%H:%M:%S")
 
 
 data = dict()
