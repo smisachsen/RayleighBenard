@@ -7,11 +7,17 @@ import numpy as np
 import os
 import json
 
+from datetime import datetime
 from tensorforce.agents import Agent
 from tensorforce.execution import ParallelRunner, Runner
 
 from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment, MAX_EPISODE_TIMESTEPS
 from RemoteEnvironmentClient import RemoteEnvironmentClient
+
+num_episodes = 64
+
+start=datetime.now()
+datetime_start = now.strftime("%H:%M:%S")
 
 datafolder = os.path.join(os.getcwd(), "data")
 
@@ -63,10 +69,18 @@ sys.path.append(cwd + evaluation_folder)
 
 runner = ParallelRunner(agent=agent, environments=environments)
 runner.run(
-    num_episodes=400, sync_episodes=True
+    num_episodes=num_episodes, sync_episodes=True
     )
 
+
+end=datetime.now()
+datetime_end = now.strftime("%H:%M:%S")
+
+
 data = dict()
+data["datetime_start"] = datetime_start
+data["datetime_end"] = datetime_end
+data["num_episodes"] = num_episodes
 data["rewards"] = runner.episode_rewards
 
 #dump rewards to datafolder
