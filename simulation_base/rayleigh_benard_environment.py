@@ -212,6 +212,7 @@ class RayleighBenard(object):
         self.temperature = dict()
         self.u = dict()
         self.actions_list = dict()
+        self.nusselt_list = list()
 
 
     def initialize(self, rand=0.01):
@@ -454,6 +455,8 @@ class RayleighBenard(object):
 
         nusselt = convection/conduction
 
+        self.nusselt_list.append(nusselt)
+
         return -nusselt
 
     def plot(self, t, tstep):
@@ -525,12 +528,14 @@ class RayleighBenard(object):
         temp = np.array(list(self.temperature.values()))
         u = np.array(list(self.u.values()))
         actions= np.array(list(self.actions_list.values()))
+        nusselt = np.array(self.nusselt_list)
 
         if folderpath is not None:
             np.save(file = os.path.join(folderpath, "u.npy"), arr = u)
             np.save(file = os.path.join(folderpath,"time.npy"), arr = time)
             np.save(file = os.path.join(folderpath, "temp.npy"), arr = temp)
             np.save(file = os.path.join(folderpath, "actions.npy"), arr = actions)
+            np.save(file = os.path.join(folderpath, "nusselt.npy"), arr = nusselt)
 
             if output:
                 print("saved files to folder: {}".format(folderpath))
