@@ -516,16 +516,19 @@ class RayleighBenard(object):
         self.temperature[self.t] = T_b
         self.u[self.t] = ub
 
-    def save_to_file(self, folderpath = None):
+    def save_to_file(self, folderpath = None, output=True):
 
         time = np.array(list(self.temperature.keys()))
         temp = np.array(list(self.temperature.values()))
         u = np.array(list(self.u.values()))
 
         if folderpath is not None:
-            np.save(file = folderpath + "u", arr = u)
-            np.save(file = folderpath + "time", arr = time)
-            np.save(file = folderpath + "temp", arr = temp)
+            np.save(file = os.path.join(folderpath, "u.npy"), arr = u)
+            np.save(file = os.path.join(folderpath,"time.npy"), arr = time)
+            np.save(file = os.path.join(folderpath, "temp.npy"), arr = temp)
+
+            if output:
+                print("saved files to folder: {}".format(folderpath))
 
         else:
             np.save(file = "u", arr = u)

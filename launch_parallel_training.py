@@ -13,7 +13,7 @@ from tensorforce.execution import ParallelRunner, Runner
 from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment, MAX_EPISODE_TIMESTEPS
 from RemoteEnvironmentClient import RemoteEnvironmentClient
 
-datafolder = "data"
+datafolder = os.path.join(os.getcwd(), "data")
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-n", "--number-servers", required=True, help="number of servers to spawn", type=int)
@@ -81,7 +81,7 @@ single_runner = Runner(agent=agent, environment=env)
 single_runner.run(num_episodes=1, evaluation=True)
 
 
-env.RB.save_to_file(folderpath=datafolder)
+env.RB.save_to_file(folderpath=datafolder) 
 
 runner.close()
 single_runner.close()
