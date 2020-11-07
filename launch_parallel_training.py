@@ -8,15 +8,12 @@ import os
 import json
 
 from tensorforce.agents import Agent
-from tensorforce.execution import ParallelRunner
+from tensorforce.execution import ParallelRunner, Runner
 
 from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment, MAX_EPISODE_TIMESTEPS
 from RemoteEnvironmentClient import RemoteEnvironmentClient
 
-
-agent_dir = "agent_save"
-agent_filename = "ppo_agent"
-
+datafolder = "data"
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-n", "--number-servers", required=True, help="number of servers to spawn", type=int)
@@ -42,11 +39,6 @@ for crrt_simu in range(number_servers):
         timing_print=(crrt_simu == 0)
     ))
 
-# if use_best_model:
-#     evaluation_environment = environments.pop()
-# else:
-#     evaluation_environment = None
-
 network = [dict(type='dense', size=512), dict(type='dense', size=512)]
 
 agent = Agent.create(
@@ -65,12 +57,11 @@ agent = Agent.create(
     saver=dict(directory=os.path.join(os.getcwd(), 'saved_agents'))
 )
 
-runner = ParallelRunner(agent=agent, environments=environments)
-
 cwd = os.getcwd()
 evaluation_folder = "env_" + str(number_servers - 1)
 sys.path.append(cwd + evaluation_folder)
 
+runner = ParallelRunner(agent=agent, environments=environments)
 runner.run(
     num_episodes=400, sync_episodes=True
     )
@@ -78,9 +69,22 @@ runner.run(
 data = dict()
 data["rewards"] = runner.episode_rewards
 
-outfile = "data/results.json"
+#dump rewards to datafolder
+outfile = os.path.join(datafolder, "results.json")
 with open(outfile, "w") as file:
     json.dump(data, file)
 
+
+#run single evaluation and save to datafolder
+env = RayleighBenardEnvironment()
+single_runner = Runner(agent=agent, environment=env)
+single_runner.run(num_episodes=1, evaluation=True)
+
+
+env.save_to_file(folderpath=datafolder)
+
 runner.close()
+single_runner.close()
+
+
 
