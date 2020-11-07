@@ -5,6 +5,7 @@ from simulation_base.utils import get_indecies
 import matplotlib.pyplot as plt
 import sympy
 import sys
+import os
 
 import sympy
 
