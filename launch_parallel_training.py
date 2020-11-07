@@ -80,7 +80,7 @@ data["rewards"] = runner.episode_rewards
 
 outfile = "data/results.json"
 with open(outfile, "w") as file:
-    json.dumps(data, file)
+    json.dump(data, file)
 
 runner.close()
 
