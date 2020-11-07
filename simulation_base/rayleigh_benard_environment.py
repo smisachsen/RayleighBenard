@@ -13,7 +13,7 @@ NUM_DT_BETWEEN_ACTIONS = 10
 MAX_EPISODE_TIMESTEPS = 100
 X_SHAPE = 20
 Y_SHAPE = 20
-NUM_STATE_POINTS_X = 5
+NUM_STATE_POINTS_X = 10
 NUM_STATE_POINTS_Y = 5
 NUM_ACTIONS = 10
 
@@ -123,7 +123,7 @@ class RayleighBenardEnvironment(Environment):
 x, y, tt = sympy.symbols('x,y,t', real=True)
 
 class RayleighBenard(object):
-    def __init__(self, N=(32, 32), L=(2, 2*np.pi), Ra=10., Pr=0.7, dt=0.1,
+    def __init__(self, N=(32, 32), L=(2, 2*np.pi), Ra=100., Pr=0.7, dt=0.1,
                  bcT=(0, 1), conv=0, modplot=100, modsave=1e8, filename='RB',
                  family='C', quad='GC', num_actions = 4, num_states = 4):
 
@@ -211,6 +211,7 @@ class RayleighBenard(object):
 
         self.temperature = dict()
         self.u = dict()
+        self.actions_list = dict()
 
 
     def initialize(self, rand=0.01):
@@ -516,17 +517,20 @@ class RayleighBenard(object):
 
         self.temperature[self.t] = T_b
         self.u[self.t] = ub
+        self.actions_list[self.t] = actions
 
     def save_to_file(self, folderpath = None, output=True):
 
         time = np.array(list(self.temperature.keys()))
         temp = np.array(list(self.temperature.values()))
         u = np.array(list(self.u.values()))
+        actions= np.array(list(self.actions_list.values()))
 
         if folderpath is not None:
             np.save(file = os.path.join(folderpath, "u.npy"), arr = u)
             np.save(file = os.path.join(folderpath,"time.npy"), arr = time)
             np.save(file = os.path.join(folderpath, "temp.npy"), arr = temp)
+            np.save(file== os.path.join(folderpath, "actions.npy"), arr = actions)
 
             if output:
                 print("saved files to folder: {}".format(folderpath))
