@@ -453,8 +453,7 @@ class RayleighBenard(object):
         convection_values = self.convection(self.u_, self.H_).backward()
         convection = inner((1, 1), abs(convection_values))
 
-        nusselt = np.mean(convection/conduction)
-
+        nusselt = np.sum(convection)/np.sum(conduction)
         self.nusselt_list.append(nusselt)
 
         return -nusselt
