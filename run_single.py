@@ -26,4 +26,4 @@ agent = Agent.create(
 runner = Runner(
     agent=agent, environment=env
     )
-runner.run(num_episodes=100)
+runner.run(num_episodes=1)

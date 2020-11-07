@@ -70,7 +70,6 @@ runner = ParallelRunner(agent=agent, environments=environments)
 cwd = os.getcwd()
 evaluation_folder = "env_" + str(number_servers - 1)
 sys.path.append(cwd + evaluation_folder)
-# out_drag_file = open("avg_drag.txt", "w")
 
 runner.run(
     num_episodes=400, sync_episodes=True
@@ -79,6 +78,7 @@ runner.run(
 data = dict()
 data["rewards"] = runner.episode_rewards
 
+outfile = "data/results.json"
 with open(outfile, "w") as file:
     json.dumps(data, file)
 
