@@ -81,7 +81,7 @@ single_runner = Runner(agent=agent, environment=env)
 single_runner.run(num_episodes=1, evaluation=True)
 
 
-env.save_to_file(folderpath=datafolder)
+env.RB.save_to_file(folderpath=datafolder)
 
 runner.close()
 single_runner.close()
