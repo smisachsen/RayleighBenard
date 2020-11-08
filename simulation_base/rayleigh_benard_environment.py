@@ -459,9 +459,9 @@ class RayleighBenard(object):
         self.states_list.append(current_state)
 
     def get_state(self):
-        state = []
+        state = np.array()
         for i in range(NUM_PREV_TIMESTEPS_STATE):
-            state += self.states_list[(-NUM_PREV_TIMESTEPS_STATE+i)]
+            state = state.concatenate(self.states_list[(-NUM_PREV_TIMESTEPS_STATE+i)])
 
         return np.array(state).flatten()
 
