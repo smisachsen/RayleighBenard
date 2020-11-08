@@ -214,7 +214,7 @@ class RayleighBenard(object):
         self.actions_list = dict()
         self.nusselt_list = dict()
 
-        self.states_dict = dict()
+        self.states_list = list()
 
 
     def initialize(self, rand=0.01):
