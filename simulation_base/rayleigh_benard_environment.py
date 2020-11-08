@@ -62,13 +62,14 @@ class RayleighBenardEnvironment(Environment):
         self.RB = RayleighBenard(**self.RB_config)
         self.RB.initialize(rand = 0.01)
         self.RB.assemble()
-        self.state = self.__get_state()
+        
 
         #move simulation forward NUM_PREV_TIMESTEPS_STATE steps in order to have complete state at initial actions
         for _ in range(NUM_PREV_TIMESTEPS_STATE):
             self.RB.solve(num_timesteps = self.num_dt_between_actions,
                 actions = np.ones(NUM_ACTIONS)*2)
 
+        self.state = self.__get_state()
         return self.state
 
     def max_episode_timesteps(self):
