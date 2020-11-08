@@ -23,7 +23,7 @@ x, y, t = sympy.symbols('x,y,t', real=True)
 
 RB_CONFIG = {
     'N': (X_SHAPE, Y_SHAPE),
-    'Ra': 500,
+    'Ra': 10000,
     "Pr": 0.71,
     'dt': BASE_DT,
     'filename': 'RB100',

@@ -55,6 +55,14 @@ agent = Agent.create(
     network=network,
     # Optimization
     batch_size=20, learning_rate=1e-3, subsampling_fraction=0.2, optimization_steps=25,
+    # Critic
+    critic_network=network,
+    critic_optimizer=dict(
+        type='multi_step', num_steps=5,
+        optimizer=dict(type='adam', learning_rate=1e-3)
+    ),
+    # Regularization
+    entropy_regularization=0.01,
     # Reward estimation
     likelihood_ratio_clipping=0.2,
     estimate_terminal=True,
