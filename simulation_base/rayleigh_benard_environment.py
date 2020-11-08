@@ -10,7 +10,7 @@ import os
 import sympy
 
 NUM_DT_BETWEEN_ACTIONS = 10
-MAX_EPISODE_TIMESTEPS = 100
+MAX_EPISODE_TIMESTEPS = 1000
 X_SHAPE = 20
 Y_SHAPE = 20
 NUM_STATE_POINTS_X = 10
@@ -528,14 +528,14 @@ class RayleighBenard(object):
         temp = np.array(list(self.temperature.values()))
         u = np.array(list(self.u.values()))
         actions= np.array(list(self.actions_list.values()))
-        nusselt = np.array(list(self.nusselt_list.values())
+        nusselt = np.array(list(self.nusselt_list.values()))
 
         if folderpath is not None:
             np.save(file = os.path.join(folderpath, "u.npy"), arr = u)
             np.save(file = os.path.join(folderpath,"time.npy"), arr = time)
             np.save(file = os.path.join(folderpath, "temp.npy"), arr = temp)
             np.save(file = os.path.join(folderpath, "actions.npy"), arr = actions)
-            np.save(file = os.path.join(folderpath, "nusselt.npy"), arr = nusselt)
+            np.save(file = os.path.join(folderpath, "nusselt.npy"), arr = nusselt))
 
             if output:
                 print("saved files to folder: {}".format(folderpath))
