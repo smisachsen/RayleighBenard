@@ -14,7 +14,7 @@ from tensorforce.execution import ParallelRunner, Runner
 from simulation_base.rayleigh_benard_environment import RayleighBenardEnvironment, MAX_EPISODE_TIMESTEPS
 from RemoteEnvironmentClient import RemoteEnvironmentClient
 
-num_episodes = 64
+num_episodes = 500
 
 start=datetime.now()
 datetime_start = start.strftime("%H:%M:%S")

@@ -9,21 +9,23 @@ import os
 
 import sympy
 
-NUM_DT_BETWEEN_ACTIONS = 10
-MAX_EPISODE_TIMESTEPS = 100
+BASE_DT = 0.05
+NUM_DT_BETWEEN_ACTIONS = 16
+MAX_EPISODE_TIMESTEPS = 250
 X_SHAPE = 20
 Y_SHAPE = 20
-NUM_STATE_POINTS_X = 10
-NUM_STATE_POINTS_Y = 5
+NUM_STATE_POINTS_X = 8
+NUM_STATE_POINTS_Y = 8
 NUM_ACTIONS = 10
+NUM_PREV_TIMESTEPS_STATE = 4
 
 x, y, t = sympy.symbols('x,y,t', real=True)
 
 RB_CONFIG = {
     'N': (X_SHAPE, Y_SHAPE),
-    'Ra': 1000,
-    "Pr": 0.7,
-    'dt': 0.01,
+    'Ra': 500,
+    "Pr": 0.71,
+    'dt': BASE_DT,
     'filename': 'RB100',
     'conv': 1,
     'modplot': 100,
@@ -69,11 +71,11 @@ class RayleighBenardEnvironment(Environment):
 
     def __normalize_actions(self, actions):
         """
-        Make sure that the mean of the actions are 1 in order to have a stable
+        Make sure that the mean of the actions are 2 in order to have a stable
         Ra
         """
         actions_mean = np.mean(actions)
-        diff = 1-actions_mean
+        diff = 2-actions_mean
         new_actions = actions + diff
 
         return new_actions
@@ -124,11 +126,9 @@ x, y, tt = sympy.symbols('x,y,t', real=True)
 
 class RayleighBenard(object):
     def __init__(self, N=(32, 32), L=(2, 2*np.pi), Ra=100., Pr=0.7, dt=0.1,
-                 bcT=(0, 1), conv=0, modplot=100, modsave=1e8, filename='RB',
+                 bcT=(1, 2), conv=0, modplot=100, modsave=1e8, filename='RB',
                  family='C', quad='GC', num_actions = 4, num_states = 4):
 
-        self.num_states = num_states
-        self.num_actions = num_actions
 
         self.nu = np.sqrt(Pr/Ra)
         self.kappa = 1./np.sqrt(Pr*Ra)
@@ -213,6 +213,8 @@ class RayleighBenard(object):
         self.u = dict()
         self.actions_list = dict()
         self.nusselt_list = dict()
+
+        self.states_dict = dict()
 
 
     def initialize(self, rand=0.01):
@@ -437,13 +439,20 @@ class RayleighBenard(object):
         tmp_u1 = self.ub[0]
         tmp_u2 = self.ub[1]
 
-        state = list()
+        #state for current time step
+        current_state = list()
         for arr in [tmp_T, tmp_u1, tmp_u2]:
             for ind in indecies:
                 x, y = ind[0], ind[1]
                 state.append(arr[x, y])
 
-        state = np.array(state)
+        current_state = np.array(current_state)
+        self.states_list.append(current_state)
+
+        state = []
+        for i in range(NUM_PREV_TIMESTEPS_STATE):
+            state += self.states_list[(-NUM_PREV_TIMESTEPS_STATE+i)]
+
         return state
 
     def get_reward(self):
