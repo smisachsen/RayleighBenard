@@ -535,7 +535,7 @@ class RayleighBenard(object):
             np.save(file = os.path.join(folderpath,"time.npy"), arr = time)
             np.save(file = os.path.join(folderpath, "temp.npy"), arr = temp)
             np.save(file = os.path.join(folderpath, "actions.npy"), arr = actions)
-            np.save(file = os.path.join(folderpath, "nusselt.npy"), arr = nusselt))
+            np.save(file = os.path.join(folderpath, "nusselt.npy"), arr = nusselt)
 
             if output:
                 print("saved files to folder: {}".format(folderpath))
