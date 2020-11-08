@@ -437,7 +437,7 @@ class RayleighBenard(object):
             plt.draw()
             plt.pause(1e-6)
 
-    def get_state(self):
+    def set_state_current_timestep(self):
         shape = self.T_b.shape
         indecies = get_indecies(shape, NUM_STATE_POINTS_X, NUM_STATE_POINTS_Y)
 
@@ -455,6 +455,7 @@ class RayleighBenard(object):
         current_state = np.array(current_state)
         self.states_list.append(current_state)
 
+    def get_state(self):
         state = []
         for i in range(NUM_PREV_TIMESTEPS_STATE):
             state += self.states_list[(-NUM_PREV_TIMESTEPS_STATE+i)]
@@ -535,7 +536,7 @@ class RayleighBenard(object):
         self.temperature[self.t] = T_b
         self.u[self.t] = ub
         self.actions_list[self.t] = actions
-        #self.nusselt_list[self.t] = -self.get_reward()
+        self.set_state_current_timestep() #timestep for current timestep (complete agent state is previous N steps merged)
 
     def save_to_file(self, folderpath = None, output=True):
 
