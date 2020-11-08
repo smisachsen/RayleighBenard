@@ -1,4 +1,5 @@
 import sys
+import os
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,9 +7,16 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 
 
-time = np.load("time.npy")
-temp = np.load("temp.npy")
-u = np.load("u.npy")
+last_run_folder = os.path.join(os.getcwd(), "last_run")
+
+time = np.load(os.path.join(last_run_folder, "time.npy"))
+temp = np.load(os.path.join(last_run_folder, "temp.npy"))
+u = np.load(os.path.join(last_run_folder, "u.npy"))
+actions = np.load(os.path.join(last_run_folder, "actions.npy"))
+nusselt = np.load(os.path.join(last_run_folder, "nusselt.npy"))
+
+print(actions[0].sum())
+sys.exit()
 
 msg = "usage: python3 plot.py u/T"
 
@@ -34,7 +42,7 @@ elif sys.argv[1] == "T":
             COLORBAR = True
             fig.colorbar(cs)
 
-        plt.title(f"Time: {time[i]:.1f}s")
+        plt.title(f"Time: {time[i]:.1f}s nusselt: {nusselt[i]:.3f}")
 
 #plot
 anim = animation.FuncAnimation(fig, animate, frames = len(temp))

@@ -1,6 +1,6 @@
 from tensorforce.environments import Environment
 from shenfun import *
-from simulation_base.utils import get_indecies 
+from simulation_base.utils import get_indecies
 
 import matplotlib.pyplot as plt
 import sympy
@@ -38,7 +38,7 @@ RB_CONFIG = {
 
 
 class RayleighBenardEnvironment(Environment):
-    def __init__(self, num_dt_between_actions=NUM_DT_BETWEEN_ACTIONS, max_episode_timesteps=MAX_EPISODE_TIMESTEPS, 
+    def __init__(self, num_dt_between_actions=NUM_DT_BETWEEN_ACTIONS, max_episode_timesteps=MAX_EPISODE_TIMESTEPS,
         num_actions=NUM_ACTIONS, RB_config=RB_CONFIG):
         super().__init__()
 
@@ -537,7 +537,7 @@ class RayleighBenard(object):
         temp = np.array(list(self.temperature.values()))
         u = np.array(list(self.u.values()))
         actions= np.array(list(self.actions_list.values()))
-        nusselt = np.array(self.nusselt_list)
+        nusselt = np.array(list(self.nusselt_list.values()))
 
         if folderpath is not None:
             np.save(file = os.path.join(folderpath, "u.npy"), arr = u)
@@ -553,8 +553,3 @@ class RayleighBenard(object):
             np.save(file = "u", arr = u)
             np.save(file = "time", arr = time)
             np.save(file = "temp", arr = temp)
-
-
-
-
-
