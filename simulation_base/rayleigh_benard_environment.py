@@ -444,7 +444,7 @@ class RayleighBenard(object):
         for arr in [tmp_T, tmp_u1, tmp_u2]:
             for ind in indecies:
                 x, y = ind[0], ind[1]
-                state.append(arr[x, y])
+                current_state.append(arr[x, y])
 
         current_state = np.array(current_state)
         self.states_list.append(current_state)
@@ -453,7 +453,7 @@ class RayleighBenard(object):
         for i in range(NUM_PREV_TIMESTEPS_STATE):
             state += self.states_list[(-NUM_PREV_TIMESTEPS_STATE+i)]
 
-        return state
+        return np.array(state).flatten()
 
     def get_reward(self):
         dT = project(Dx(self.T_, 0, 1), self.TC)
