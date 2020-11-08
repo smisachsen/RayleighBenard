@@ -11,7 +11,7 @@ import sympy
 
 BASE_DT = 0.05
 NUM_DT_BETWEEN_ACTIONS = 16
-MAX_EPISODE_TIMESTEPS = 250
+MAX_EPISODE_TIMESTEPS = 500
 X_SHAPE = 20
 Y_SHAPE = 20
 NUM_STATE_POINTS_X = 8
@@ -30,7 +30,7 @@ RB_CONFIG = {
     'conv': 1,
     'modplot': 100,
     'modsave': 50,
-        'bcT': (sympy.sin((t+x)), 0),
+    'bcT': (2*sympy.sin((2*x)), 0),
     'family': 'C',
     'quad': 'GC'
 }
