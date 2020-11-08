@@ -60,7 +60,7 @@ class RayleighBenardEnvironment(Environment):
         self.time_step = 0
 
         self.RB = RayleighBenard(**self.RB_config)
-        self.RB.initialize(rand = 0.01)
+        self.RB.initialize(rand = 2.0)
         self.RB.assemble()
         
 
